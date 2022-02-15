@@ -12,6 +12,7 @@ import {
 import Layout from '../../components/Layout'
 import {useAuthentication} from '../../hooks/authentication'
 import {toast} from 'react-toastify'
+import Link from 'next/link'
 
 type Query = {
   uid: string
@@ -78,9 +79,9 @@ export default function UserShow() {
           <div className="m-5">{user.name}さんに質問しよう！</div>
           <div className="row justify-content-center mb-3">
             <div className="col-12 col-md-6">
-              {user.uid === currentUser.uid ? (
+              {/* {user.uid === currentUser.uid ? (
                 <div>自分には送信できません。</div>
-              ) : (
+              ) : ( */}
                 <form onSubmit={onSubmit}>
                   <textarea
                     className="form-control"
@@ -103,11 +104,20 @@ export default function UserShow() {
                     )}
                   </div>
                 </form>
-              )}
+               {/* )} */}
             </div>
           </div>
         </div>
       )}
+      <div>
+        {user && (
+          <p className="text-center">
+            <Link href="/users/me" >
+              <a className="btn btn-link">自分もみんなに質問してもらおう！</a>
+            </Link>
+          </p>
+        )}
+      </div>
     </Layout>
   )
 }

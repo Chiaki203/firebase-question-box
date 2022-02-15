@@ -17,6 +17,8 @@ import Layout from '../../components/Layout'
 import {Question} from '../../models/Question'
 import {Answer} from '../../models/Answer'
 import {useAuthentication} from '../../hooks/authentication'
+import TwitterShareButton from '../../components/TwitterShareButton'
+
 
 type Query = {
   id: string
@@ -30,6 +32,7 @@ export default function QuestionShow() {
   const [answer, setAnswer] = useState<Answer>(null)
   const [body, setBody] = useState('')
   const [isSending, setIsSending] = useState(false)
+  const [isAnswered, setIsAnswered] = useState(false)
   function getCollections() {
     const db = getFirestore()
     return {
@@ -69,6 +72,7 @@ export default function QuestionShow() {
   }
   async function onSubmit(e:FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    setIsAnswered(true)
     setIsSending(true)
     const {db, questionsCollection, answersCollection} = getCollections()
     const answerRef = doc(answersCollection)
@@ -137,13 +141,28 @@ export default function QuestionShow() {
                     </div>
                   </form>
                 ) : (
-                  <div className="card text-left">
-                    <div className="card-body text-left">
-                      {answer.body}
+                  <>
+                    <div className="card text-left">
+                      <div className="card-body text-left">
+                        {answer.body}
+                      </div>
+                      {/* <div className="my-3 d-flex justify-content-center">
+                      <TwitterShareButton
+                        url={`${process.env.NEXT_PUBLIC_WEB_URL}/answers/${answer?.id}`}
+                        text={answer?.body}/>
+                      </div> */}
                     </div>
-                  </div>
+                  </>
+                  
                 )}
               </section>
+              {answer !== null && (
+                <div className="my-3 d-flex justify-content-center">
+                <TwitterShareButton
+                  url={`${process.env.NEXT_PUBLIC_WEB_URL}/answers/${answer.id}`}
+                  text={answer.body}/>
+                </div>
+              )}
             </>
           )}
           {/* <section className="text-center mt-4">

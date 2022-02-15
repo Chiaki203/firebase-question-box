@@ -3,6 +3,7 @@ import {Answer} from '../../../models/Answer'
 import {Question} from '../../../models/Question'
 import Head from 'next/head'
 import TwitterShareButton from '../../../components/TwitterShareButton'
+import Link from 'next/link'
 
 type Props = {
   answer: Answer
@@ -54,6 +55,11 @@ export default function AnswersShow(props:Props) {
                 url={`${process.env.NEXT_PUBLIC_WEB_URL}/answers/${props.answer.id}`}
                 text={props.answer.body}/>
             </div>
+            <p className="text-center my-5">
+            <Link href="/users/me" >
+              <a className="btn btn-link">自分もみんなに質問してもらおう！</a>
+            </Link>
+          </p>
           </>
         </div>
       </div>
